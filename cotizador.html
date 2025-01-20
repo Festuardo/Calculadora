@@ -1,162 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cotizador de Créditos</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        button {
-            margin-right: 10px;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        table th {
-            background-color: #f4f4f4;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cotizador de Créditos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #0275d8;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #0275d8;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #025aa5;
+    }
+    .table-container {
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: right;
+    }
+    th {
+      background-color: #f7f7f7;
+    }
+    .totals {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Cotizador de Créditos</h1>
-        <div class="form-group">
-            <label for="monto">Monto del Crédito (Q):</label>
-            <input type="number" id="monto" placeholder="Ingrese el monto" required>
-        </div>
-        <div class="form-group">
-            <label for="plazo">Plazo (meses):</label>
-            <input type="number" id="plazo" placeholder="Ingrese el plazo" required>
-        </div>
-        <div class="form-group">
-            <label for="tasa">Tasa de Interés Anual (%):</label>
-            <input type="number" step="0.01" id="tasa" placeholder="Ingrese la tasa de interés" required>
-        </div>
-        <div class="form-group">
-            <label for="tipo">Tipo de Cuota:</label>
-            <select id="tipo">
-                <option value="nivelada">Nivelada</option>
-                <option value="saldos">Sobre Saldos</option>
-            </select>
-        </div>
-        <button onclick="generarTabla()">Generar Tabla</button>
-        <button onclick="window.print()">Imprimir</button>
-        <button onclick="compartirWhatsApp()">Compartir</button>
+  <div class="container">
+    <h1>Cotizador de Créditos</h1>
+    <label for="amount">Monto del crédito (Q):</label>
+    <input type="number" id="amount" placeholder="Ej: 50000" inputmode="numeric">
 
-        <table id="tabla-amortizacion">
-            <thead>
-                <tr>
-                    <th>Mes</th>
-                    <th>Cuota</th>
-                    <th>Interés</th>
-                    <th>Capital</th>
-                    <th>Saldo</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
+    <label for="term">Plazo (meses):</label>
+    <input type="number" id="term" placeholder="Ej: 12" inputmode="numeric">
 
-    <script>
-        function generarTabla() {
-            const monto = parseFloat(document.getElementById('monto').value);
-            const plazo = parseInt(document.getElementById('plazo').value);
-            const tasa = parseFloat(document.getElementById('tasa').value) / 100 / 12;
-            const tipo = document.getElementById('tipo').value;
+    <label for="rate">Tasa de interés anual (%):</label>
+    <input type="number" id="rate" placeholder="Ej: 12" inputmode="decimal">
 
-            const tablaBody = document.getElementById('tabla-amortizacion').querySelector('tbody');
-            tablaBody.innerHTML = '';
+    <label for="type">Tipo de cuota:</label>
+    <select id="type">
+      <option value="nivelada">Cuotas Niveladas</option>
+      <option value="saldo">Cuotas Sobre Saldo</option>
+    </select>
 
-            let saldo = monto;
+    <button id="generate">Generar Cotización</button>
+    <button id="print">Imprimir</button>
+    <button id="share">Compartir</button>
 
-            if (tipo === 'nivelada') {
-                const cuota = monto * (tasa * Math.pow(1 + tasa, plazo)) / (Math.pow(1 + tasa, plazo) - 1);
+    <div class="table-container" id="table-container"></div>
+  </div>
 
-                for (let mes = 1; mes <= plazo; mes++) {
-                    const interes = saldo * tasa;
-                    const capital = cuota - interes;
-                    saldo -= capital;
+  <script>
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('es-GT', { style: 'currency', currency: 'GTQ' }).format(value);
+    };
 
-                    tablaBody.innerHTML += `
-                        <tr>
-                            <td>${mes}</td>
-                            <td>${cuota.toFixed(2)}</td>
-                            <td>${interes.toFixed(2)}</td>
-                            <td>${capital.toFixed(2)}</td>
-                            <td>${saldo.toFixed(2)}</td>
-                        </tr>
-                    `;
-                }
-            } else {
-                const capital = monto / plazo;
+    const generateAmortizationTable = (amount, term, rate, type) => {
+      const monthlyRate = rate / 12 / 100;
+      const tableContainer = document.getElementById('table-container');
+      tableContainer.innerHTML = '';
 
-                for (let mes = 1; mes <= plazo; mes++) {
-                    const interes = saldo * tasa;
-                    const cuota = capital + interes;
-                    saldo -= capital;
+      let tableHTML = '<table><thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Saldo</th></tr></thead><tbody>';
 
-                    tablaBody.innerHTML += `
-                        <tr>
-                            <td>${mes}</td>
-                            <td>${cuota.toFixed(2)}</td>
-                            <td>${interes.toFixed(2)}</td>
-                            <td>${capital.toFixed(2)}</td>
-                            <td>${saldo.toFixed(2)}</td>
-                        </tr>
-                    `;
-                }
-            }
+      let balance = amount;
+      let totalInterest = 0;
+      let totalPrincipal = 0;
+
+      for (let i = 1; i <= term; i++) {
+        let interest = balance * monthlyRate;
+        let principal, installment;
+
+        if (type === 'nivelada') {
+          installment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+          principal = installment - interest;
+        } else {
+          principal = amount / term;
+          installment = principal + interest;
         }
 
-        function compartirWhatsApp() {
-            const tabla = document.getElementById('tabla-amortizacion');
-            let mensaje = 'Tabla de Amortización:\n\n';
+        balance -= principal;
+        totalInterest += interest;
+        totalPrincipal += principal;
 
-            for (let row of tabla.rows) {
-                const cells = Array.from(row.cells).map(cell => cell.innerText);
-                mensaje += cells.join(' | ') + '\n';
-            }
+        tableHTML += `<tr><td>${i}</td><td>${formatCurrency(installment)}</td><td>${formatCurrency(interest)}</td><td>${formatCurrency(principal)}</td><td>${formatCurrency(balance > 0 ? balance : 0)}</td></tr>`;
+      }
 
-            const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
+      tableHTML += `</tbody><tfoot><tr class="totals"><td colspan="2">Totales</td><td>${formatCurrency(totalInterest)}</td><td>${formatCurrency(totalPrincipal)}</td><td>-</td></tr></tfoot></table>`;
+      tableContainer.innerHTML = tableHTML;
+    };
+
+    document.getElementById('generate').addEventListener('click', () => {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const term = parseInt(document.getElementById('term').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      const type = document.getElementById('type').value;
+
+      if (!amount || !term || !rate) {
+        alert('Por favor, completa todos los campos.');
+        return;
+      }
+
+      generateAmortizationTable(amount, term, rate, type);
+    });
+
+    document.getElementById('print').addEventListener('click', () => {
+      window.print();
+    });
+
+    document.getElementById('share').addEventListener('click', () => {
+      const amount = parseFloat(document.getElementById('amount').value);
+      const term = parseInt(document.getElementById('term').value);
+      const rate = parseFloat(document.getElementById('rate').value);
+      const type = document.getElementById('type').value;
+      const tableContainer = document.getElementById('table-container');
+
+      if (!amount || !term || !rate || !tableContainer.innerHTML.trim()) {
+        alert('Por favor, genera una cotización antes de compartir.');
+        return;
+      }
+
+      const monthlyRate = rate / 12 / 100;
+      let balance = amount;
+      let totalInterest = 0;
+      let firstInstallment, lastInstallment;
+
+      for (let i = 1; i <= term; i++) {
+        let interest = balance * monthlyRate;
+        let principal, installment;
+
+        if (type === 'nivelada') {
+          installment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+          principal = installment - interest;
+        } else {
+          principal = amount / term;
+          installment = principal + interest;
         }
-    </script>
+
+        balance -= principal;
+        totalInterest += interest;
+
+        if (i === 1) firstInstallment = installment;
+        if (i === term) lastInstallment = installment;
+      }
+
+      let message = `Monto: ${formatCurrency(amount)}\nPlazo: ${term} meses\nTasa de interés: ${rate}% anual\n`;
+
+      if (type === 'nivelada') {
+        message += `Cuota nivelada: ${formatCurrency(firstInstallment)}\n`;
+      } else {
+        message += `Primera cuota: ${formatCurrency(firstInstallment)}\nÚltima cuota: ${formatCurrency(lastInstallment)}\n`;
+      }
+
+      message += `Total de intereses a pagar: ${formatCurrency(totalInterest)}`;
+
+      const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+
+      window.open(whatsappURL, '_blank');
+    });
+  </script>
 </body>
 </html>
