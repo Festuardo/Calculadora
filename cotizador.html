@@ -67,6 +67,22 @@
       font-weight: bold;
     }
   </style>
+
+    @media print {
+    body * {
+      visibility: hidden;
+    }
+    #table-container, #table-container * {
+      visibility: visible;
+    }
+    #table-container {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+  }
+  
 </head>
 <body>
   <div class="container">
@@ -147,8 +163,12 @@
     });
 
     document.getElementById('print').addEventListener('click', () => {
-      window.print();
-    });
+  if (!document.getElementById('table-container').innerHTML.trim()) {
+    alert('Por favor, genera una cotización antes de imprimir.');
+    return;
+  }
+  window.print();
+});
 
     document.getElementById('share').addEventListener('click', () => {
       const amount = parseFloat(document.getElementById('amount').value);
