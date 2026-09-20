@@ -4,224 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cotizador de Créditos</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-    .container {
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #0275d8;
-    }
-    label {
-      display: block;
-      margin: 15px 0 5px;
-      font-weight: bold;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    button {
-      background-color: #0275d8;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #025aa5;
-    }
-    .table-container {
-      margin-top: 20px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    table, th, td {
-      border: 1px solid #ddd;
-    }
-    th, td {
-      padding: 10px;
-      text-align: right;
-    }
-    th {
-      background-color: #f7f7f7;
-    }
-    .totals {
-      font-weight: bold;
-    }
-  
-    @media print {
-    body * {
-      visibility: hidden;
-    }
-    #table-container, #table-container * {
-      visibility: visible;
-    }
-    #table-container {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-    }
-  }
-
+<meta name="theme-color" content="#123f61"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Cotizador"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--blue:#123f61;--green:#167c52;--ink:#19242d;--muted:#657581;--line:#d9e3ea}*{box-sizing:border-box}body{font-family:Segoe UI,Arial,sans-serif;margin:0;background:#f2f5f7;color:var(--ink)}header{background:linear-gradient(120deg,#0a2d48,#17628f);color:white;padding:32px max(20px,calc((100vw - 1000px)/2));border-bottom:5px solid #2c8f61}header p{margin:8px 0 0;color:#ddecf5;font-size:14px}h1{margin:0;font-size:28px}h2{font-size:19px;color:var(--blue)}.brand{font-size:12px;letter-spacing:2px;font-weight:700;margin-bottom:12px;display:block}.container{max-width:1000px;margin:24px auto;padding:0 18px}.panel{background:white;border:1px solid var(--line);padding:24px;border-radius:16px;box-shadow:0 5px 20px #20364708}.fields{display:grid;grid-template-columns:1fr 1fr;gap:18px}label{display:block;margin-bottom:7px;font-weight:600;font-size:14px}input,select{width:100%;padding:13px;border:1px solid #c8d4dc;border-radius:8px;font:inherit;background:#fff;color:var(--ink)}button,.button{border:0;border-radius:9px;padding:12px 17px;cursor:pointer;font:600 14px Segoe UI,Arial,sans-serif;background:var(--blue);color:white;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}button:disabled{opacity:.45;cursor:not-allowed}button:hover:not(:disabled),.button:hover{filter:brightness(.94)}button:focus-visible,a:focus-visible,input:focus,select:focus{outline:3px solid #96d2f3;outline-offset:2px}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.green{background:var(--green)}.light{background:#eef3f6;color:var(--blue);border:1px solid var(--line)}.install{float:right;background:#ffffff18;border:1px solid #ffffff66}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.metric{background:white;border:1px solid var(--line);border-top:4px solid #2c8f61;border-radius:12px;padding:18px}.metric span{display:block;font-size:12px;color:var(--muted);margin-bottom:8px}.metric strong{font-size:23px;color:var(--blue)}.table-scroll{overflow:auto;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}th,td{padding:12px;text-align:right;border-bottom:1px solid #e4ebef;white-space:nowrap}th{background:var(--blue);color:white}tr:nth-child(even){background:#f5f8fa}tfoot{font-weight:bold;background:#eaf8f1}.note{color:var(--muted);font-size:13px;line-height:1.6}.status{font-size:13px;color:#285a77;line-height:1.6;margin-top:14px}.status.error{color:#a32c2c}footer{text-align:center;font-size:12px;color:var(--muted);padding:25px}dialog{border:1px solid var(--line);border-radius:16px;padding:26px;max-width:470px;width:calc(100% - 30px);line-height:1.6}dialog::backdrop{background:#10233288}[hidden]{display:none!important}.quote-meta{line-height:1.7;color:var(--muted);font-size:13px}.empty{text-align:center;padding:35px 15px;color:var(--muted)}svg{width:20px;height:20px}.print-footer{display:none}@media(max-width:600px){header{padding:24px 18px}h1{font-size:24px}.install{float:none;margin-bottom:20px}.fields,.summary{grid-template-columns:1fr}.panel{padding:18px}.actions button{flex:1}.container{padding:0 12px}.metric strong{font-size:22px}}@media print{header,.panel,.actions,.status,.empty,dialog,footer{display:none!important}.container{max-width:none;margin:0;padding:0}body{background:#fff}.summary{grid-template-columns:repeat(3,1fr)}.metric{box-shadow:none}.metric strong{font-size:18px}.table-scroll{overflow:visible;border:none}th{color:#000;background:#eee}thead{display:table-header-group}tr{break-inside:avoid}.print-footer{display:block;font-size:11px;text-align:center;margin-top:20px}}
 </style>
   
 </head>
 <body>
-  <div class="container">
-    <h1>Cotizador de Créditos</h1>
-    <label for="amount">Monto del crédito (Q):</label>
-    <input type="number" id="amount" placeholder="Ingrese el Monto:" inputmode="numeric">
-
-    <label for="term">Plazo (meses):</label>
-    <input type="number" id="term" placeholder="Ingrese el Plazo" inputmode="numeric">
-
-    <label for="rate">Tasa de interés anual (%):</label>
-    <input type="number" id="rate" placeholder="Ingrese la Tasa de Interes" inputmode="decimal">
-
-    <label for="type">Tipo de cuota:</label>
-    <select id="type">
-      <option value="nivelada">Cuotas Niveladas</option>
-      <option value="saldo">Cuotas Sobre Saldo</option>
-    </select>
-
-    <button id="generate">Generar Cotización</button>
-    <button id="print">Imprimir</button>
-    <button id="share">Compartir</button>
-
-    <div class="table-container" id="table-container"></div>
-  </div>
-
-  <script>
-    const formatCurrency = (value) => {
-      return new Intl.NumberFormat('es-GT', { style: 'currency', currency: 'GTQ' }).format(value);
-    };
-
-    const generateAmortizationTable = (amount, term, rate, type) => {
-      const monthlyRate = rate / 12 / 100;
-      const tableContainer = document.getElementById('table-container');
-      tableContainer.innerHTML = '';
-
-      let tableHTML = '<table><thead><tr><th>Mes</th><th>Cuota</th><th>Interés</th><th>Capital</th><th>Saldo</th></tr></thead><tbody>';
-
-      let balance = amount;
-      let totalInterest = 0;
-      let totalPrincipal = 0;
-
-      for (let i = 1; i <= term; i++) {
-        let interest = balance * monthlyRate;
-        let principal, installment;
-
-        if (type === 'nivelada') {
-          installment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
-          principal = installment - interest;
-        } else {
-          principal = amount / term;
-          installment = principal + interest;
-        }
-
-        balance -= principal;
-        totalInterest += interest;
-        totalPrincipal += principal;
-
-        tableHTML += `<tr><td>${i}</td><td>${formatCurrency(installment)}</td><td>${formatCurrency(interest)}</td><td>${formatCurrency(principal)}</td><td>${formatCurrency(balance > 0 ? balance : 0)}</td></tr>`;
-      }
-
-      tableHTML += `</tbody><tfoot><tr class="totals"><td colspan="2">Totales</td><td>${formatCurrency(totalInterest)}</td><td>${formatCurrency(totalPrincipal)}</td><td>-</td></tr></tfoot></table>`;
-      tableContainer.innerHTML = tableHTML;
-    };
-
-    document.getElementById('generate').addEventListener('click', () => {
-      const amount = parseFloat(document.getElementById('amount').value);
-      const term = parseInt(document.getElementById('term').value);
-      const rate = parseFloat(document.getElementById('rate').value);
-      const type = document.getElementById('type').value;
-
-      if (!amount || !term || !rate) {
-        alert('Por favor, completa todos los campos.');
-        return;
-      }
-
-      generateAmortizationTable(amount, term, rate, type);
-    });
-
-    document.getElementById('print').addEventListener('click', () => {
-  if (!document.getElementById('table-container').innerHTML.trim()) {
-    alert('Por favor, genera una cotización antes de imprimir.');
-    return;
-  }
-  window.print();
-});
-
-    document.getElementById('share').addEventListener('click', () => {
-      const amount = parseFloat(document.getElementById('amount').value);
-      const term = parseInt(document.getElementById('term').value);
-      const rate = parseFloat(document.getElementById('rate').value);
-      const type = document.getElementById('type').value;
-      const tableContainer = document.getElementById('table-container');
-
-      if (!amount || !term || !rate || !tableContainer.innerHTML.trim()) {
-        alert('Por favor, genera una cotización antes de compartir.');
-        return;
-      }
-
-      const monthlyRate = rate / 12 / 100;
-      let balance = amount;
-      let totalInterest = 0;
-      let firstInstallment, lastInstallment;
-
-      for (let i = 1; i <= term; i++) {
-        let interest = balance * monthlyRate;
-        let principal, installment;
-
-        if (type === 'nivelada') {
-          installment = amount * (monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
-          principal = installment - interest;
-        } else {
-          principal = amount / term;
-          installment = principal + interest;
-        }
-
-        balance -= principal;
-        totalInterest += interest;
-
-        if (i === 1) firstInstallment = installment;
-        if (i === term) lastInstallment = installment;
-      }
-
-      let message = `Monto: ${formatCurrency(amount)}\nPlazo: ${term} meses\nTasa de interés: ${rate}% anual\n`;
-
-      if (type === 'nivelada') {
-        message += `Cuota nivelada: ${formatCurrency(firstInstallment)}\n`;
-      } else {
-        message += `Primera cuota: ${formatCurrency(firstInstallment)}\nÚltima cuota: ${formatCurrency(lastInstallment)}\n`;
-      }
-
-      message += `Total de intereses a pagar: ${formatCurrency(totalInterest)}`;
-
-      const whatsappURL = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
-
-      window.open(whatsappURL, '_blank');
-    });
-  </script>
-</body>
-</html>
-
+<header><button id="install" class="install" type="button">Instalar aplicación</button><span class="brand">FGARCIA · HERRAMIENTAS</span><h1>Cotizador de créditos</h1><p>Calcula, compara y comparte una cotización en minutos.</p></header>
+<main class="container">
+<section class="panel"><form id="quoteForm"><div class="fields">
+<div><label for="amount">Monto del crédito (Q)</label><input type="number" id="amount" min="0.01" step="0.01" placeholder="Ej. 50000" inputmode="decimal" required></div>
+<div><label for="term">Plazo en meses</label><input type="number" id="term" min="1" max="1200" step="1" placeholder="Ej. 36" inputmode="numeric" required></div>
+<div><label for="rate">Tasa de interés anual (%)</label><input type="number" id="rate" min="0" step="any" placeholder="Ej. 18" inputmode="decimal" required></div>
+<div><label for="type">Tipo de cuota</label><select id="type"><option value="nivelada">Cuotas niveladas</option><option value="saldo">Cuotas sobre saldo</option></select></div>
+</div><div class="actions"><button id="generate" type="submit">Calcular cotización</button><button id="print" class="light" type="button" disabled>Imprimir / guardar PDF</button><button id="share" class="green" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M20.5 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.2-4.7a8.5 8.5 0 1 1 16.3-3.8Z"/><path fill="currentColor" d="m8 7 2 3-1 1c1 2 2 3 4 3l1-1 3 1c0 3-3 4-6 2-3-2-5-5-5-7 0-1 1-2 2-2Z"/></svg>Enviar por WhatsApp</button></div></form>
+<p id="status" class="status" role="status" aria-live="polite"></p><div id="shareFallback" hidden><p class="note">Si WhatsApp no abre, verifica que esté instalado o utiliza WhatsApp Web.</p><a id="webShare" class="button light" target="_blank" rel="noopener">Abrir WhatsApp Web</a></div>
+</section>
+<div id="empty" class="empty">Ingresa los datos para ver las cuotas y la tabla de pagos.</div>
+<section id="table-container" hidden></section>
+</main><footer>© <span id="year"></span> Fgarcia · Todos los derechos reservados.</footer>
+<dialog id="installHelp"><h2>Instalar cotizador</h2><p id="installText"></p><p class="note">La disponibilidad depende del navegador. Abre la versión publicada para instalarla.</p><button id="closeHelp" type="button">Entendido</button></dialog>
+<script src="app.js"></script>
+</body></html>
